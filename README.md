@@ -3,7 +3,9 @@ A lot of people were really interested in our Scoreboard and since I thought abo
 
 INSTRUCTIONS:
 
-Replace your scoreboard by going into [system] and simply replace "scoreboard" with our.
+1. Replace your scoreboard by going into [system] and simply replace "scoreboard" with our.
+2. Put scoreboard after es_extended in server.cfg
+3. Profit?!?!?!?
 
 How to make a Custom logo?
 Go in to scoreboard/html and replace newlogo.png with your own.

@@ -36,9 +36,6 @@ function CountEMS()
 		if xPlayer.job.name == 'cardealer' then
 			BilConnected = BilConnected + 1
 		end
-		if xPlayer.job.name == 'ambulance' then
-			EMSConnected = EMSConnected + 1
-		end
 		if xPlayer.job.name == 'realestateagent' then
 			MaklareConnected = MaklareConnected + 1
 		end	

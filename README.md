@@ -1,20 +1,15 @@
 # Stadus_Scoreboard
-A lot of people were really interested in our Scoreboard and since I thought about shutting down my community. I want to give back something to the FiveM Community!
+A lot of people were really interested in our Scoreboard and since I thought about shutting down my community. I want to give back something to the FiveM community!
 
-INSTRUCTIONS:
+### Installation
+1. Replace your scoreboard by going into [system] and simply replace the content of `scoreboard` with this script. This is important! You cannot add this as an seperate resource as the script will break, as the script will end up [looking like this](https://i.imgur.com/4KzuLyf.jpg)
+2. Put `scoreboard` somewhere after `es_extended` in your server configuration file
 
-1. Replace your scoreboard by going into [system] and simply replace "scoreboard" with our.
-2. Put scoreboard after es_extended in server.cfg
-3. Profit?!?!?!?
-
-How to make a Custom logo?
+### How do I customize the logo?
 Go in to scoreboard/html and replace newlogo.png with your own.
 
-Credits:
-Thanks to the FiveM-team for the initial version of the scoreboard.
+### Credits
+Thanks to the FiveM-team for the initial version of the scoreboard. I would really appreciate if you would leave the watermark "made by Stadus".
 
-I would really appreciate if you would leave the watermark "made by Stadus".
-
-
-NOTE!!!
+### Notes
 I won't help with any support whatsoever.

@@ -5,7 +5,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
 
-function CountEMS()
+function CountJobs()
 
 	local xPlayers = ESX.GetPlayers()
 
@@ -15,7 +15,6 @@ function CountEMS()
 	MekConnected = 0
 	BilConnected = 0
 	MaklareConnected = 0
-	IcaConnected = 0
 	PlayerConnected = 0
 
 	for i=1, #xPlayers, 1 do
@@ -38,9 +37,6 @@ function CountEMS()
 		end
 		if xPlayer.job.name == 'realestateagent' then
 			MaklareConnected = MaklareConnected + 1
-		end	
-		if xPlayer.job.name == 'forsaljare' then
-			IcaConnected = IcaConnected + 1
 		end
 	end
 
@@ -50,8 +46,8 @@ end
 ESX.RegisterServerCallback('stadusrp_getJobsOnline', function(source, cb)
 
   local xPlayer    = ESX.GetPlayerFromId(source)
-  CountEMS()
-cb(EMSConnected, PoliceConnected, TaxiConnected, MekConnected, BilConnected, MaklareConnected, IcaConnected, PlayerConnected)
+  CountJobs()
+cb(EMSConnected, PoliceConnected, TaxiConnected, MekConnected, BilConnected, MaklareConnected, PlayerConnected)
 
 end)
 

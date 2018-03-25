@@ -72,7 +72,7 @@ end
 
                 listOn = true
                 while listOn do
-                    Wait(0)
+                    Citizen.Wait(10)
                     if(IsControlPressed(0, Keys['DELETE']) == false) and GetLastInputMethod(2) then
                         listOn = false
                         SendNUIMessage({

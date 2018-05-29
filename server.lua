@@ -15,7 +15,6 @@ function CountJobs()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 		
-		if xPlayer == nil then next end
 		PlayerConnected = PlayerConnected + 1
 		if xPlayer.job.name == 'ambulance' then
 			EMSConnected = EMSConnected + 1

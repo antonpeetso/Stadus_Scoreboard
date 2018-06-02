@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 							bil = bil,
 							maklare = maklare,
 							spelare = spelare
-						)
+						})
 					end)
 					Faketimer = 0
 				else

@@ -34,7 +34,7 @@ function CountJobs()
 	return EMSConnected, PoliceConnected, TaxiConnected, MekConnected, BilConnected, MaklareConnected, PlayerConnected
 end
 
-ESX.RegisterServerCallback('stadusrp_getJobsOnline', function(source, cb)
+ESX.RegisterServerCallback('scoreboard:getScoreboard', function(source, cb)
 	cb(CountJobs())
 end)
 

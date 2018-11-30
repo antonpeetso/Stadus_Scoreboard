@@ -82,16 +82,26 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
 
-		if IsControlJustReleased(0, Keys['F10']) then
-			SendNUIMessage({
-				action = 'toggle'
-			})
+		if IsControlJustReleased(0, Keys['F10']) and IsInputDisabled(0) then
+			ToggleScoreBoard()
+			Citizen.Wait(200)
+
+		-- D-pad up on controllers works, too!
+		elseif IsControlJustReleased(0, 172) and not IsInputDisabled(0) then
+			ToggleScoreBoard()
+			Citizen.Wait(200)
 		end
 	end
 end)
 
+function ToggleScoreBoard()
+	SendNUIMessage({
+		action = 'toggle'
+	})
+end
+
 Citizen.CreateThread(function()
-	local playMinute, playHour, playTime = 0, 0, '00h 00m'
+	local playMinute, playHour = 0, 0
 
 	while true do
 		Citizen.Wait(1000 * 60) -- every minute

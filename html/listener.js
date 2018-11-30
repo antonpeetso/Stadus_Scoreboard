@@ -6,10 +6,10 @@ $(function () {
 		switch (event.data.action) {
 			case 'toggle':
 
-				if (visable) {
-					$('#wrap').hide();
+				if (!visable) {
+					$('#wrap').fadeIn();
 				} else {
-					$('#wrap').show();
+					$('#wrap').fadeOut();
 				}
 
 				visable = !visable;

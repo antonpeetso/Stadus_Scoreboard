@@ -8,6 +8,7 @@ An fork of Stadus_Scoreboard with major improvements
 
 - Light on performance
 - See all players ping, and colored depending on the ping
+- Controller friendly! Dpad up or F10 to open the scoreboard by default.
 
 ## Getting uptime to work
 

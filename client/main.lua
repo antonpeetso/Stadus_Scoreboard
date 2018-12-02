@@ -57,6 +57,13 @@ AddEventHandler('esx_scoreboard:updatePing', function(connectedPlayers)
 	})
 end)
 
+RegisterNetEvent('esx_scoreboard:toggleID')
+AddEventHandler('esx_scoreboard:toggleID', function(state)
+	SendNUIMessage({
+		action  = 'toggleID'
+	})
+end)
+
 RegisterNetEvent('uptime:tick')
 AddEventHandler('uptime:tick', function(uptime)
 	SendNUIMessage({

@@ -24,6 +24,12 @@ Citizen.CreateThread(function()
 	end
 end)
 
+AddEventHandler('es:playerLoaded', function(Source, user)
+	if user.getGroup() == 'user' then
+		TriggerClientEvent('esx_scoreboard:toggleID', Source)
+	end
+end)
+
 AddEventHandler('esx:playerLoaded', function(player)
 	connectedPlayers[player] = {}
 	connectedPlayers[player].ping = GetPlayerPing(player)
@@ -43,6 +49,12 @@ AddEventHandler('esx:playerLoaded', function(player)
 		end
 
 		TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
+	end)
+
+	TriggerEvent('es:getPlayerFromId', player, function(user)
+		if user.getGroup() == 'user' then
+			TriggerClientEvent('esx_scoreboard:toggleID', player)
+		end
 	end)
 end)
 
@@ -101,6 +113,12 @@ function ForceCountPlayers()
 		while connectedPlayers[player].name == nil do
 			Citizen.Wait(1)
 		end
+
+		TriggerEvent('es:getPlayerFromId', player, function(user)
+			if user.getGroup() == 'user' then
+				TriggerClientEvent('esx_scoreboard:toggleID', player)
+			end
+		end)
 
 	end
 

@@ -1,18 +1,28 @@
 var visable = false;
+	idVisable = true;
 
 $(function () {
 	window.addEventListener('message', function (event) {
 
 		switch (event.data.action) {
 			case 'toggle':
-
-				if (!visable) {
-					$('#wrap').fadeIn();
-				} else {
+				if (visable) {
 					$('#wrap').fadeOut();
+				} else {
+					$('#wrap').fadeIn();
 				}
 
 				visable = !visable;
+				break;
+
+			case 'toggleID':
+				if (idVisable) {
+					$('td:nth-child(2),th:nth-child(2)').hide();
+				} else {
+					$('td:nth-child(2),th:nth-child(2)').show();
+				}
+
+				idVisable = !idVisable;
 				break;
 
 			case 'updatePlayerJobs':

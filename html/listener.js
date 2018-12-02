@@ -82,11 +82,13 @@ function applyPingColor() {
 
 // Todo: not the best code
 function updatePing(players) {
-	jQuery.each(players, function (i, val) {
-		$('#playerlist tr:not(.heading)').each(function () {
-			$(this).find('td:nth-child(2):contains(' + val.id + ')').each(function () {
-				$(this).parent().find('td').eq(2).html(val.ping);
+	jQuery.each(players, function (i, v) {
+		if (v != null) {
+			$('#playerlist tr:not(.heading)').each(function () {
+				$(this).find('td:nth-child(2):contains(' + v.id + ')').each(function () {
+					$(this).parent().find('td').eq(2).html(v.ping);
+				});
 			});
-		});
+		}
 	});
 }

@@ -80,6 +80,12 @@ end, function(source, args, user)
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
 end, {help = "Refresh esx_scoreboard names!"})
 
+TriggerEvent('es:addGroupCommand', 'sctoggle', 'admin', function(source, args, user)
+	TriggerClientEvent('esx_scoreboard:toggleID', source)
+end, function(source, args, user)
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
+end, {help = "Toggle ID column on the scoreboard!"})
+
 function ForceCountPlayers()
 	local xPlayers = ESX.GetPlayers()
 	local player, identifier

@@ -32,6 +32,7 @@ $(function () {
 				$('#playerlist tr:gt(0)').remove();
 				$('#playerlist').append(event.data.players);
 				applyPingColor();
+				sortPlayerList();
 				break;
 
 			case 'updatePing':
@@ -67,9 +68,9 @@ function applyPingColor() {
 			var ping = $(this).html();
 			var color = 'green';
 
-			if (ping > 30 && ping < 60) {
+			if (ping > 50 && ping < 80) {
 				color = 'orange';
-			} else if (ping >= 60) {
+			} else if (ping >= 80) {
 				color = 'red';
 			}
 
@@ -90,5 +91,22 @@ function updatePing(players) {
 				});
 			});
 		}
+	});
+}
+
+function sortPlayerList() {
+	var table = $('#playerlist'),
+		rows = $('tr:not(.heading)', table);
+
+	rows.sort(function(a, b) {
+
+		var keyA = $('td', a).eq(1).html();
+		var keyB = $('td', b).eq(1).html();
+
+		return (keyA - keyB);
+	});
+
+	rows.each(function(index, row) {
+		table.append(row);
 	});
 }

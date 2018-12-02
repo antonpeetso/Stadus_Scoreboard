@@ -101,6 +101,22 @@ Citizen.CreateThread(function()
 	end
 end)
 
+-- Close scoreboard when game is paused
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(300)
+
+		if IsPauseMenuActive() and not IsPaused then
+			IsPaused = true
+			SendNUIMessage({
+				action  = 'close'
+			})
+		elseif not IsPauseMenuActive() and IsPaused then
+			IsPaused = false
+		end
+	end
+end)
+
 function ToggleScoreBoard()
 	SendNUIMessage({
 		action = 'toggle'

@@ -15,6 +15,11 @@ $(function () {
 				visable = !visable;
 				break;
 
+			case 'close':
+				$('#wrap').fadeOut();
+				visable = false;
+				break;
+
 			case 'toggleID':
 				if (idVisable) {
 					$('td:nth-child(2),th:nth-child(2)').hide();

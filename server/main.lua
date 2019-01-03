@@ -1,135 +1,72 @@
 ESX = nil
 local connectedPlayers = {}
-local playerJobs       = {}
+local playerJobs = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-ESX.RegisterServerCallback('esx_scoreboard:getPlayers', function(source, cb)
+ESX.RegisterServerCallback('esx_scoreboard:getConnectedPlayers', function(source, cb)
 	cb(connectedPlayers)
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(15000)
+AddEventHandler('esx:setJob', function(playerId, job, lastJob)
+	connectedPlayers[playerId].job = job.name
 
-		CountJobs()
-	end
+	TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
+end)
+
+AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
+	AddPlayerToScoreboard(xPlayer, true)
+end)
+
+AddEventHandler('esx:playerDropped', function(playerId)
+	connectedPlayers[playerId] = nil
+
+	TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
 end)
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(5000)
-
 		UpdatePing()
 	end
-end)
-
-AddEventHandler('es:playerLoaded', function(Source, user)
-	if user.getGroup() == 'user' then
-		TriggerClientEvent('esx_scoreboard:toggleID', Source)
-	end
-end)
-
-AddEventHandler('esx:playerLoaded', function(player)
-	connectedPlayers[player] = {}
-	connectedPlayers[player].ping = GetPlayerPing(player)
-	connectedPlayers[player].id = player
-
-	local identifier = GetPlayerIdentifiers(player)[1]
-
-	MySQL.Async.fetchAll('SELECT firstname, lastname, name FROM users WHERE identifier = @identifier', {
-		['@identifier'] = identifier
-	}, function (result)
-		if result[1].firstname and result[1].lastname then
-			connectedPlayers[player].name = result[1].firstname .. ' ' .. result[1].lastname
-		elseif result[1].name then
-			connectedPlayers[player].name = result[1].name
-		else
-			connectedPlayers[player].name = 'Unknown player name'
-		end
-
-		TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
-	end)
-
-	TriggerEvent('es:getPlayerFromId', player, function(user)
-		if user.getGroup() == 'user' then
-			TriggerClientEvent('esx_scoreboard:toggleID', player)
-		end
-	end)
-end)
-
-AddEventHandler('esx:playerDropped', function(playerID)
-	connectedPlayers[playerID] = nil
-
-	TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
 end)
 
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		Citizen.CreateThread(function()
 			Citizen.Wait(1000)
-			ForceCountPlayers()
-			CountJobs()
+			AddPlayersToScoreboard()
 		end)
 	end
 end)
 
-TriggerEvent('es:addGroupCommand', 'screfresh', 'admin', function(source, args, user)
-	ForceCountPlayers()
-end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
-end, {help = "Refresh esx_scoreboard names!"})
+function AddPlayerToScoreboard(xPlayer, update)
+	local playerId = xPlayer.source
 
-TriggerEvent('es:addGroupCommand', 'sctoggle', 'admin', function(source, args, user)
-	TriggerClientEvent('esx_scoreboard:toggleID', source)
-end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
-end, {help = "Toggle ID column on the scoreboard!"})
+	connectedPlayers[playerId] = {}
+	connectedPlayers[playerId].ping = GetPlayerPing(playerId)
+	connectedPlayers[playerId].id = playerId
+	connectedPlayers[playerId].name = xPlayer.getName()
+	connectedPlayers[playerId].job = xPlayer.job.name
 
-function ForceCountPlayers()
-	local xPlayers = ESX.GetPlayers()
-	local player, identifier
+	if update then
+		TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
+	end
 
-	connectedPlayers = {}
+	if xPlayer.player.getGroup() == 'user' then
+		TriggerClientEvent('esx_scoreboard:toggleID', playerId)
+	end
+end
 
-	for i=1, #xPlayers, 1 do
-		player = xPlayers[i]
+function AddPlayersToScoreboard()
+	local players = ESX.GetPlayers()
 
-		connectedPlayers[player] = {}
-		connectedPlayers[player].ping = GetPlayerPing(player)
-		connectedPlayers[player].id = player
-
-		identifier = GetPlayerIdentifiers(player)[1]
-
-		MySQL.Async.fetchAll('SELECT firstname, lastname, name FROM users WHERE identifier = @identifier', {
-			['@identifier'] = identifier
-		}, function (result)
-
-			if result[1].firstname and result[1].lastname then
-				connectedPlayers[player].name = result[1].firstname .. ' ' .. result[1].lastname
-			elseif result[1].name then
-				connectedPlayers[player].name = result[1].name
-			else
-				connectedPlayers[player].name = 'Unknown player name'
-			end
-	
-		end)
-
-		-- await!
-		while connectedPlayers[player].name == nil do
-			Citizen.Wait(1)
-		end
-
-		TriggerEvent('es:getPlayerFromId', player, function(user)
-			if user.getGroup() == 'user' then
-				TriggerClientEvent('esx_scoreboard:toggleID', player)
-			end
-		end)
-
+	for i=1, #players, 1 do
+		local xPlayer = ESX.GetPlayerFromId(players[i])
+		AddPlayerToScoreboard(xPlayer, false)
 	end
 
 	TriggerClientEvent('esx_scoreboard:updateConnectedPlayers', -1, connectedPlayers)
-
 end
 
 function UpdatePing()
@@ -140,43 +77,14 @@ function UpdatePing()
 	TriggerClientEvent('esx_scoreboard:updatePing', -1, connectedPlayers)
 end
 
-function CountJobs()
-	local EMSConnected = 0
-	local PoliceConnected = 0
-	local TaxiConnected = 0
-	local MechanicConnected = 0
-	local CardealerConnected = 0
-	local EstateConnected = 0
-	local PlayerConnected = 0
+TriggerEvent('es:addGroupCommand', 'screfresh', 'admin', function(source, args, user)
+	AddPlayersToScoreboard()
+end, function(source, args, user)
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
+end, {help = "Refresh esx_scoreboard names!"})
 
-	local xPlayers, xPlayer = ESX.GetPlayers()
-	for i=1, #xPlayers, 1 do
-
-		xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-		PlayerConnected = PlayerConnected + 1
-
-		if xPlayer.job.name == 'ambulance' then
-			EMSConnected = EMSConnected + 1
-		elseif xPlayer.job.name == 'police' then
-			PoliceConnected = PoliceConnected + 1
-		elseif xPlayer.job.name == 'taxi' then
-			TaxiConnected = TaxiConnected + 1
-		elseif xPlayer.job.name == 'mecano' then
-			MechanicConnected = MechanicConnected + 1
-		elseif xPlayer.job.name == 'cardealer' then
-			CardealerConnected = CardealerConnected + 1
-		elseif xPlayer.job.name == 'realestateagent' then
-			EstateConnected = EstateConnected + 1
-		end
-	end
-
-	TriggerClientEvent('esx_scoreboard:updatePlayerJobs', -1, json.encode({
-			ems = EMSConnected,
-			police = PoliceConnected,
-			taxi = TaxiConnected,
-			mechanic = MechanicConnected,
-			cardealer = CardealerConnected,
-			estate = EstateConnected,
-			player_count = PlayerConnected
-	}))
-end
+TriggerEvent('es:addGroupCommand', 'sctoggle', 'admin', function(source, args, user)
+	TriggerClientEvent('esx_scoreboard:toggleID', source)
+end, function(source, args, user)
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
+end, {help = "Toggle ID column on the scoreboard!"})

@@ -31,16 +31,16 @@ $(function () {
 				break;
 
 			case 'updatePlayerJobs':
-				var json = JSON.parse(event.data.jobs);
+				var jobs = event.data.jobs;
 
-				$('#player_count').html(json.player_count);
+				$('#player_count').html(jobs.player_count);
 
-				$('#ems').html(json.ems);
-				$('#police').html(json.police);
-				$('#taxi').html(json.taxi);
-				$('#mechanic').html(json.mechanic);
-				$('#cardealer').html(json.cardealer);
-				$('#estate').html(json.estate);
+				$('#ems').html(jobs.ems);
+				$('#police').html(jobs.police);
+				$('#taxi').html(jobs.taxi);
+				$('#mechanic').html(jobs.mechanic);
+				$('#cardealer').html(jobs.cardealer);
+				$('#estate').html(jobs.estate);
 				break;
 
 			case 'updatePlayerList':

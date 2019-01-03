@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
 	end
 
 	Citizen.Wait(2000)
-	ESX.TriggerServerCallback('esx_scoreboard:getPlayers', function(connectedPlayers)
+	ESX.TriggerServerCallback('esx_scoreboard:getConnectedPlayers', function(connectedPlayers)
 		UpdatePlayerTable(connectedPlayers)
 	end)
 end)
@@ -39,14 +39,6 @@ end)
 RegisterNetEvent('esx_scoreboard:updateConnectedPlayers')
 AddEventHandler('esx_scoreboard:updateConnectedPlayers', function(connectedPlayers)
 	UpdatePlayerTable(connectedPlayers)
-end)
-
-RegisterNetEvent('esx_scoreboard:updatePlayerJobs')
-AddEventHandler('esx_scoreboard:updatePlayerJobs', function(playerJobs)
-	SendNUIMessage({
-		action = 'updatePlayerJobs',
-		jobs   = playerJobs
-	})
 end)
 
 RegisterNetEvent('esx_scoreboard:updatePing')
@@ -74,14 +66,34 @@ end)
 
 function UpdatePlayerTable(connectedPlayers)
 	local formattedPlayerList = {}
+	local ems, police, taxi, mehanic, cardealer, estate = 0, 0, 0, 0, 0, 0
 
 	for k,v in pairs(connectedPlayers) do
-		table.insert(formattedPlayerList, ('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'):format(v.name, k, v.ping))
+		table.insert(formattedPlayerList, ('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'):format(v.name, v.id, v.ping))
+
+		if v.job == 'ambulance' then
+			ems = ems + 1
+		elseif v.job == 'police' then
+			police = police + 1
+		elseif v.job == 'taxi' then
+			taxi = taxi + 1
+		elseif v.job == 'mecano' then
+			mehanic = mehanic + 1
+		elseif v.job == 'cardealer' then
+			cardealer = cardealer + 1
+		elseif v.job == 'realestateagent' then
+			estate = estate + 1
+		end
 	end
 
 	SendNUIMessage({
 		action  = 'updatePlayerList',
 		players = table.concat(formattedPlayerList)
+	})
+
+	SendNUIMessage({
+		action = 'updatePlayerJobs',
+		jobs   = {ems = ems, police = police, taxi = taxi, mehanic = mehanic, cardealer = cardealer, estate = estate, player_count = #connectedPlayers}
 	})
 end
 

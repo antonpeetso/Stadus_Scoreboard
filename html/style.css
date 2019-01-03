@@ -6,7 +6,7 @@ html {
 #wrap {
 	width: 26vw;
 	min-height: 185px;
-	margin-top: 10%;
+	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: rgb(46, 46, 46, 0.85);
@@ -22,7 +22,7 @@ p {
 	font-size: 1.05vw;
 }
 
-.title {
+.header {
 	font-family: 'Segoe UI';
 	height: 35px;
 	width: auto;
@@ -35,8 +35,6 @@ p {
 
 .jobs {
 	font-family: 'Segoe UI';
-	margin-right: 0px;
-	margin-top: 0px;
 	padding-top: 10px;
 	background-color: #1C1C1C;
 	height: 3vw;

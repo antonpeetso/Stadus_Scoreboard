@@ -1,5 +1,4 @@
 var visable = false;
-	idVisable = true;
 
 $(function () {
 	window.addEventListener('message', function (event) {
@@ -21,13 +20,13 @@ $(function () {
 				break;
 
 			case 'toggleID':
-				if (idVisable) {
-					$('td:nth-child(2),th:nth-child(2)').hide();
-				} else {
+
+				if (event.data.state) {
 					$('td:nth-child(2),th:nth-child(2)').show();
+				} else {
+					$('td:nth-child(2),th:nth-child(2)').hide();
 				}
 
-				idVisable = !idVisable;
 				break;
 
 			case 'updatePlayerJobs':

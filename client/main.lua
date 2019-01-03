@@ -10,7 +10,7 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local visable = false
+local idVisable = true
 ESX = nil
 
 Citizen.CreateThread(function()
@@ -51,8 +51,15 @@ end)
 
 RegisterNetEvent('esx_scoreboard:toggleID')
 AddEventHandler('esx_scoreboard:toggleID', function(state)
+	if state then
+		idVisable = state
+	else
+		idVisable = not idVisable
+	end
+
 	SendNUIMessage({
-		action  = 'toggleID'
+		action = 'toggleID',
+		state = idVisable
 	})
 end)
 

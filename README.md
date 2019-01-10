@@ -1,6 +1,6 @@
 # esx_scoreboard
 
-An fork of Stadus_Scoreboard with major improvements
+An ESX scoreboard based off the Stadus_Scoreboard resource.
 
 [Preview image](https://i.imgur.com/RVjJQnO.jpg)
 

@@ -73,10 +73,11 @@ end)
 
 function UpdatePlayerTable(connectedPlayers)
 	local formattedPlayerList = {}
-	local ems, police, taxi, mechanic, cardealer, estate = 0, 0, 0, 0, 0, 0
+	local ems, police, taxi, mechanic, cardealer, estate, players = 0, 0, 0, 0, 0, 0, 0
 
 	for k,v in pairs(connectedPlayers) do
 		table.insert(formattedPlayerList, ('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'):format(v.name, v.id, v.ping))
+		players = players + 1
 
 		if v.job == 'ambulance' then
 			ems = ems + 1
@@ -100,7 +101,7 @@ function UpdatePlayerTable(connectedPlayers)
 
 	SendNUIMessage({
 		action = 'updatePlayerJobs',
-		jobs   = {ems = ems, police = police, taxi = taxi, mechanic = mechanic, cardealer = cardealer, estate = estate, player_count = #connectedPlayers}
+		jobs   = {ems = ems, police = police, taxi = taxi, mechanic = mechanic, cardealer = cardealer, estate = estate, player_count = players}
 	})
 end
 

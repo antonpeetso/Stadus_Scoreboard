@@ -113,7 +113,6 @@ function sortPlayerList() {
 		rows = $('tr:not(.heading)', table);
 
 	rows.sort(function(a, b) {
-
 		var keyA = $('td', a).eq(1).html();
 		var keyB = $('td', b).eq(1).html();
 

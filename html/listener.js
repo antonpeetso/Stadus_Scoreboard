@@ -23,8 +23,10 @@ $(function () {
 
 				if (event.data.state) {
 					$('td:nth-child(2),th:nth-child(2)').show();
+					$('td:nth-child(5),th:nth-child(5)').show();
 				} else {
 					$('td:nth-child(2),th:nth-child(2)').hide();
+					$('td:nth-child(5),th:nth-child(5)').hide();
 				}
 
 				break;
@@ -46,7 +48,7 @@ $(function () {
 				$('#playerlist tr:gt(0)').remove();
 				$('#playerlist').append(event.data.players);
 				applyPingColor();
-				sortPlayerList();
+				//sortPlayerList();
 				break;
 
 			case 'updatePing':
@@ -78,7 +80,7 @@ $(function () {
 
 function applyPingColor() {
 	$('#playerlist tr').each(function () {
-		$(this).find('td:nth-child(3)').each(function () {
+		$(this).find('td:nth-child(3),td:nth-child(6)').each(function () {
 			var ping = $(this).html();
 			var color = 'green';
 
@@ -97,11 +99,15 @@ function applyPingColor() {
 
 // Todo: not the best code
 function updatePing(players) {
-	jQuery.each(players, function (i, v) {
-		if (v != null) {
+	jQuery.each(players, function (index, element) {
+		if (element != null) {
 			$('#playerlist tr:not(.heading)').each(function () {
-				$(this).find('td:nth-child(2):contains(' + v.id + ')').each(function () {
-					$(this).parent().find('td').eq(2).html(v.ping);
+				$(this).find('td:nth-child(2):contains(' + element.id + ')').each(function () {
+					$(this).parent().find('td').eq(2).html(element.ping);
+				});
+
+				$(this).find('td:nth-child(5):contains(' + element.id + ')').each(function () {
+					$(this).parent().find('td').eq(5).html(element.ping);
 				});
 			});
 		}

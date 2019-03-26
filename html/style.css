@@ -4,13 +4,13 @@ html {
 }
 
 #wrap {
-	width: 26vw;
+	width: 58vw;
 	min-height: 185px;
 	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: rgb(46, 46, 46, 0.85);
-	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.50), 0px 2px 10px 0px rgba(0, 0, 0, 0.50);
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
 	color: rgba(255, 255, 255, 0.9);
 	border-radius: 2px;
 }
@@ -39,8 +39,7 @@ p {
 	background-color: #1C1C1C;
 	height: 3vw;
 	width: 100%;
-	padding: 2x;
-	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.30), 0px 1px 1px 0px rgba(0, 0, 0, 0.30);
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
 
 .jobs p {

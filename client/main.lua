@@ -72,11 +72,19 @@ AddEventHandler('uptime:tick', function(uptime)
 end)
 
 function UpdatePlayerTable(connectedPlayers)
-	local formattedPlayerList = {}
+	local formattedPlayerList, num = {}, 1
 	local ems, police, taxi, mechanic, cardealer, estate, players = 0, 0, 0, 0, 0, 0, 0
 
 	for k,v in pairs(connectedPlayers) do
-		table.insert(formattedPlayerList, ('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'):format(v.name, v.id, v.ping))
+
+		if num == 1 then
+			table.insert(formattedPlayerList, ('<tr><td>%s</td><td>%s</td><td>%s</td>'):format(v.name, v.id, v.ping))
+			num = 2
+		elseif num == 2 then
+			table.insert(formattedPlayerList, ('<td>%s</td><td>%s</td><td>%s</td></tr>'):format(v.name, v.id, v.ping))
+			num = 1
+		end
+
 		players = players + 1
 
 		if v.job == 'ambulance' then
@@ -92,6 +100,10 @@ function UpdatePlayerTable(connectedPlayers)
 		elseif v.job == 'realestateagent' then
 			estate = estate + 1
 		end
+	end
+
+	if num == 1 then
+		table.insert(formattedPlayerList, '</tr>')
 	end
 
 	SendNUIMessage({

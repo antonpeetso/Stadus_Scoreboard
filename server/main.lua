@@ -1,6 +1,5 @@
 ESX = nil
 local connectedPlayers = {}
-local playerJobs = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 

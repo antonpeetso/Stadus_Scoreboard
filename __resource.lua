@@ -1,23 +1,17 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
-description 'Scoreboard'
+description 'ESX Scoreboard'
+
+version '1.0.0'
+
+server_script 'server/main.lua'
+
+client_script 'client/main.lua'
 
 ui_page 'html/scoreboard.html'
-
-client_script 'client.lua'
-server_script 'server.lua'
 
 files {
 	'html/scoreboard.html',
 	'html/style.css',
-	'html/reset.css',
-	'html/bg.png',
-	'html/newlogo.png',
-	'html/listener.js',
-	'html/res/futurastd-medium.css',
-	'html/res/futurastd-medium.eot',
-	'html/res/futurastd-medium.woff',
-	'html/res/futurastd-medium.ttf',
-	'html/res/opensans-light.ttf',
-	'html/res/futurastd-medium.svg'
+	'html/listener.js'
 }
